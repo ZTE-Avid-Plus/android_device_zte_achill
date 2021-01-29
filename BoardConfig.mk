@@ -22,13 +22,23 @@ TARGET_BOOTLOADER_BOARD_NAME := achill
 TARGET_BOARD_PLATFORM := msm8909
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno304
 
-# Arch
+# Architecture
 TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_VARIANT := cortex-a7
-TARGET_CPU_SMP := true
+
+# Init
+TARGET_INIT_VENDOR_LIB := libinit_msm8909
+TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
+TARGET_RECOVERY_DEVICE_MODULES := libinit_msm8909
+
+# Qualcomm support
+BOARD_USES_QCOM_HARDWARE := true
+TARGET_POWERHAL_VARIANT := qcom
+TARGET_RIL_VARIANT := caf
+MALLOC_SVELTE := true
 
 # Flags
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
@@ -43,9 +53,6 @@ BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_KERNEL_SEPARATED_DT := true
 TARGET_KERNEL_CONFIG := lineage-achill_defconfig
 TARGET_KERNEL_SOURCE := kernel/zte/achill
-
-# Init
-TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x02000000
