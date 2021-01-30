@@ -7,5 +7,10 @@
     "remote":      "ZTE-Avid-Plus",
     "repository":  "android_kernel_zte_achill",
     "target_path": "kernel/zte/achill",
+  },
+  {
+    "remote":      "ZTE-Avid-Plus",
+    "repository":  "android_vendor_zte_achill",
+    "target_path": "vendor/zte/achill",
   }
 ]
