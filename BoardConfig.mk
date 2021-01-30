@@ -71,14 +71,8 @@ AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
 BOARD_USES_ALSA_AUDIO := true
 USE_CUSTOM_AUDIO_POLICY := 1
 
-# Memory
-MALLOC_SVELTE := true
-
 # Media
 TARGET_USES_MEDIA_EXTENSIONS := true
-
-# QCOM hardware
-BOARD_USES_QCOM_HARDWARE := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/zte/achill/ramdisk/fstab.qcom
