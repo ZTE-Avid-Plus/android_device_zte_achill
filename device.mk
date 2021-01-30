@@ -43,8 +43,23 @@ PRODUCT_PACKAGES += \
     init.qcom.power.rc \
     init.qcom.ssr.rc \
     init.recovery.qcom.rc \
-    ueventd.qcom.rc
+    ueventd.qcom.rc \
+    fstab.qcom \
+    init.target.rc
     
+# Keylayout
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/atmel_mxt_ts.kl:system/usr/keylayout/atmel_mxt_ts.kl \
+    $(LOCAL_PATH)/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl
+    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
+    $(LOCAL_PATH)/keylayout/matrix_keypad.71.kl:system/usr/keylayout/matrix_keypad.71.kl
+    $(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl
+
+# Lights
+PRODUCT_PACKAGES += \
+    lights.msm8909
+
 # Media
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
@@ -73,7 +88,17 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf
+    $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
+    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/audio/mixer_paths_qrd_skuh.xml:system/etc/mixer_paths_qrd_skuh.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_qrd_skui.xml:system/etc/mixer_paths_qrd_skui.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_qrd_skut.xml:system/etc/mixer_paths_qrd_skui.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_msm8909_pm8916.xml:system/etc/mixer_paths_msm8909_pm8916.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_skua.xml:system/etc/mixer_paths_skua.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_skuc.xml:system/etc/mixer_paths_skuc.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_skue.xml:system/etc/mixer_paths_skue.xml
+    
 
 PRODUCT_PROPERTY_OVERRIDES += \
     av.streaming.offload.enable=true \
@@ -85,6 +110,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     audio.offload.pcm.24bit.enable=true \
     audio.offload.video=true \
     use.voice.path.for.pcm.voip=true
+    
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml
     
 # Init
 PRODUCT_PACKAGES += \
@@ -142,6 +170,7 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -192,6 +221,22 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.disableWifiApFirmwareReload=true \
     wifi.interface=wlan0
+    
+# Camera
+PRODUCT_PACKAGES += \
+    camera.msm8909 \
+    libmm-qcamera \
+    libshim_camera \
+    Snap
+
+# Build libstlport for vendor blobs
+PRODUCT_PACKAGES += \
+    libstlport
+
+# Permissions
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -212,6 +257,55 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini
+    
+# GPS
+PRODUCT_PACKAGES += \
+    gps.msm8909
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/etc/gps/flp.conf:system/etc/flp.conf \
+    $(LOCAL_PATH)/etc/gps/gps.conf:system/etc/gps.conf \
+    $(LOCAL_PATH)/etc/gps/izat.conf:system/etc/izat.conf \
+    $(LOCAL_PATH)/etc/gps/sap.conf:system/etc/sap.conf
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml
+    
+# Sensors
+PRODUCT_PACKAGES += \
+    calmodule.cfg \
+    sensors.msm8909
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
+    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
+ 
+# USB ID
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.usb.vid=201E \
+    ro.usb.id.charge=F006 \
+    ro.usb.id.mtp=2282 \
+    ro.usb.id.mtp_adb=2281 \
+    ro.usb.id.ptp=2284 \
+    ro.usb.id.ptp_adb=2283 \
+    ro.usb.id.ums=2286 \
+    ro.usb.id.ums_adb=2285
+
+# Secure
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.secure=0 \
+    ro.adb.secure=0
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml
+ 
+# IMS
+PRODUCT_PACKAGES += \
+    libshims_ims
     
 # Boot animation
 TARGET_SCREEN_HEIGHT := 854
