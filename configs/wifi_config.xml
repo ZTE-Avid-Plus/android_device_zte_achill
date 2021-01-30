@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+**********************************************************************************************
+when         who        		what, 												where
+2011-4-1  	 zhangbaisheng   	First release for wifi function configuration
+2011-11-26 	 jianghaitao	   	Second release for wifi function configuration
+2012-02-27	 chenjianlian		Copy from Android 2.X to ICS
+2012-10-31 	 jianghaitao	   	Huge modifications for Jelly Bean(4.1)
+2013-04-07 	 jianghaitao	   	Huge modifications for Jelly Bean(4.2)
+**********************************************************************************************
+-->
+<wifi_config>
+<!-- **************************************WIFI STA CONFIGURATION**************************************** -->
+<!-- Flag indicating whether wifi(sta) should be banned. (false as default)-->
+<config_wifi_sta_forbidden>0</config_wifi_sta_forbidden>
+<!-- Flag indicating wifi sta sleep time in milliseconds. (900000 as default)-->
+<config_wifi_sta_sleep_time>900000</config_wifi_sta_sleep_time>
+<!-- Flag indicating whether open network notification need sound. (true as default)-->
+<config_wifi_sta_open_network_notification_sound_enabled>0</config_wifi_sta_open_network_notification_sound_enabled>
+<!-- Flag indicating whether a browser should be shown when connected to a portal AP. (false as default)-->
+<config_wifi_sta_portal_ap_browser_enabled>0</config_wifi_sta_portal_ap_browser_enabled>
+<!-- Flag indicating whether wifi should be enabled when the device is roaming. (false as default)-->
+<config_wifi_sta_open_wifi_when_roaming_enabled>0</config_wifi_sta_open_wifi_when_roaming_enabled>
+<!-- Flag indicating whether wifi should always be enabled when the device boot up. (false as default)-->
+<config_wifi_sta_always_open_wifi_when_boot_up>0</config_wifi_sta_always_open_wifi_when_boot_up>
+<!-- Flag indicating whether autoIP should be enabled. (false as default)-->
+<config_wifi_sta_autoIP_enabled>0</config_wifi_sta_autoIP_enabled>
+<!-- Flag indicating whether use ZTE watchdog state machine. 0-use Android watchdog, 1-use ZTE watchdog. (1 as default)-->
+<config_wifi_sta_use_zte_watchdog>1</config_wifi_sta_use_zte_watchdog>
+<!-- Flag indicating whether use carrier auto connect. 0-disable, 1-enable. (0 as default)-->
+<config_wifi_sta_use_auto_connect>0</config_wifi_sta_use_auto_connect>
+
+<!-- **************************************SOFTAP CONFIGURATION**************************************** -->
+<!-- Flag indicating whether wifi(ap) should be banned. (false as default)-->
+<config_wifi_ap_forbidden>0</config_wifi_ap_forbidden>
+<!-- Flag array indicating wifi softap ssid catelog. (0 5 2 as default)
+	0-Read from defconfig,
+	1-Read from MAC,
+	2-Random,
+	3-Read from Device manufacturer and  model number/name,
+	4-Read from Device manufacturer and  product number/name,
+	5-"_",
+	6-"-",
+	7-" "
+	8-IMEI
+	9-ESN-->
+<config_wifi_ap_ssid_catalog defconfig="ZTE_AP" macbits="6" randomlength="4" imeilength="4" esnlength="4">3</config_wifi_ap_ssid_catalog>
+<!-- Flag indicating wifi softap key management: 0-NONE, 1-WPA_PSK, 2-WPA_EAP, 3-IEEE8021X, 4-WPA2_PSK. (4 as default)-->
+<config_wifi_ap_keymgmt>4</config_wifi_ap_keymgmt>
+<!-- Flag indicating wifi softap psk catelog. 0-Read from config file, 1-Random, 2-MDN. (1 as default)-->
+<config_wifi_ap_key_catalog defconfig="12345678" randomlength="12" mdnlength="10">1</config_wifi_ap_key_catalog>
+<!-- Flag indicating channel number that softap uses. (6 as default)-->
+<config_wifi_ap_channel_num>0</config_wifi_ap_channel_num>
+<!-- Flag indicating pre-amble. (0 as default)-->
+<config_wifi_ap_preamble>0</config_wifi_ap_preamble>
+<!-- Flag indicating max clients that softap can support. (8 as default)-->
+<config_default_wifi_ap_max_clients>8</config_default_wifi_ap_max_clients>
+<!-- Flag indicating whether to hide softAp SSID. 0-not hide, 1-hide.(0 as default)-->
+<config_wifi_ap_hide_ssid>0</config_wifi_ap_hide_ssid>
+<!-- Flag indicating power mode time. (15 as default)-->
+<config_wifi_ap_power_mode>15</config_wifi_ap_power_mode>
+<!-- Flag indicating power mode notification. 0-no notification, 1-have notification. (0 as default)-->
+<config_wifi_ap_power_mode_notification>1</config_wifi_ap_power_mode_notification>
+<!-- Flag indicating whether power mode should check USB. 0-no check, 1-check. (0 as default)-->
+<config_wifi_ap_power_mode_usb_check>0</config_wifi_ap_power_mode_usb_check>
+<!-- Flag indicating whether dhcp is enabled. 0-no dhcp server, 1-use dhcp server. (1 as default)-->
+<config_wifi_ap_dhcpenable>1</config_wifi_ap_dhcpenable>
+<!-- Flag indicating ap IP lease time. ("3600" as default)-->
+<config_wifi_ap_dhcpleasetime>3600</config_wifi_ap_dhcpleasetime>
+<!-- Flag indicating ap IP address. ("192.168.1.1" as default)-->
+<config_wifi_ap_ipaddr>192.168.1.1</config_wifi_ap_ipaddr>
+<!-- Flag indicating ap netmask. ("255.255.255.0" as default)-->
+<config_wifi_ap_ipnetmask>255.255.255.0</config_wifi_ap_ipnetmask>
+<!-- Flag indicating ap start IP. ("192.168.1.100" as default)-->
+<config_wifi_ap_dhcpipstart>192.168.1.100</config_wifi_ap_dhcpipstart>
+<!-- Flag indicating ap end IP. ("192.168.1.254" as default)-->
+<config_wifi_ap_dhcpipend>192.168.1.254</config_wifi_ap_dhcpipend>
+<!-- Flag indicating macaddr acl. -1-no list, 0-black list, 1-white list(-1 as default) -->
+<config_wifi_ap_macaddr_acl>-1</config_wifi_ap_macaddr_acl>
+<!-- Flag indicating black list. MUST wrapped with ""!!! ("" as default, Multiple MAC addresses are separated by a SPACE separator Ex. "48:28:2f:c5:9b:b3 20:64:32:60:f0:25") -->
+<config_wifi_ap_black_list>""</config_wifi_ap_black_list>
+<!-- Flag indicating white list. MUST wrapped with ""!!! ("" as default, Multiple MAC addresses are separated by a SPACE separator Ex. "48:28:2f:c5:9b:b3 20:64:32:60:f0:25") -->
+<config_wifi_ap_white_list>""</config_wifi_ap_white_list>
+<!-- Flag indicating dns search list. MUST wrapped with ""!!!  ("" as default) -->
+<config_wifi_ap_dns_search_list>""</config_wifi_ap_dns_search_list>
+<!-- Flag indicating whether softap WPS is enabled. 0-no softap WPS, 1-use softap WPS. (1 as default)-->
+<config_wifi_ap_softap_wps>1</config_wifi_ap_softap_wps>
+<!-- Flag indicating softap tx max power. range from 8 to 24. (24 as default)-->
+<config_wifi_ap_tx_max_power>24</config_wifi_ap_tx_max_power>
+<!-- Flag indicating whether guest network is enabled. 0-no guest network, 1-use guest network. (0 as default)-->
+<config_wifi_ap_guest_network>0</config_wifi_ap_guest_network>
+<!-- Flag indicating whether softap/miracast concurrency is enabled. 0-no concurrency, 1-use concurrency. (0 as default)-->
+<config_wifi_ap_miracast_concurrency>0</config_wifi_ap_miracast_concurrency>
+<!-- Flag indicating whether 2.4g/5g concurrency is enabled. 0-no concurrency, 1-use concurrency. (0 as default)-->
+<config_wifi_ap_24g_5g_concurrency>0</config_wifi_ap_24g_5g_concurrency>
+<!-- Flag indicating IP filter. MUST wrapped with ""!!! ("" as default, Multiple IP addresses are separated by a SPACE separator Ex. "192.168.1.150 192.168.1.151") -->
+<config_wifi_ap_ip_filter>""</config_wifi_ap_ip_filter>
+<!-- Flag indicating hotspot 802.11 network PHY standard. bgn-b/g/n, g-g only, bg-b/g, a-a/n/ac. (bgn as default)-->
+<config_wifi_ap_phy_standard>bgn</config_wifi_ap_phy_standard>
+
+<!-- **************************************WIFI P2P CONFIGURATION**************************************** -->
+<!-- Flag array indicating wifi softap ssid catelog. (0 5 2 as default)
+	0-Read from config file,
+	1-Read from MAC,
+	2-Random,
+	3-Read from Device manufacturer and  model number/name,
+	4-Read from Device manufacturer and  product number/name,
+	5-"_",
+	6-"-",
+	7-" "-->
+<config_wifi_p2p_device_name_catalog defconfig="ZTE_P2P" macbits="6" randomlength="4">3</config_wifi_p2p_device_name_catalog>
+
+<!-- **************************************SAVED ITEMS**************************************** -->
+<!-- Saved item 1. (0 as default)-->
+<config_wifi_saved_item_1>0</config_wifi_saved_item_1>
+<!-- Saved item 2. (0 as default)-->
+<config_wifi_saved_item_2>0</config_wifi_saved_item_2>
+<!-- Saved item 3. (0 as default)-->
+<config_wifi_saved_item_3>0</config_wifi_saved_item_3>
+<!-- Saved item 4. (0 as default)-->
+<config_wifi_saved_item_4>0</config_wifi_saved_item_4>
+<!-- Saved item 5. (0 as default)-->
+<config_wifi_saved_item_5>0</config_wifi_saved_item_5>
+
+</wifi_config>
