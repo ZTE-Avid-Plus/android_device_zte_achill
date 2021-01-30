@@ -1,4 +1,4 @@
-# TWRP Device configuration for the Canadian ZTE Avid Plus
+# Lineage OS Device configuration for the ZTE Avid Plus Z828
 
 Basic   | Spec Sheet
 -------:|:-------------------------
