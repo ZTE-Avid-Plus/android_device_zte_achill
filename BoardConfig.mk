@@ -1,6 +1,7 @@
 #
 # Copyright (C) 2016 The Android Open-Source Project
 # Copyright (C) 2021 Alexenferman
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -95,10 +96,22 @@ include device/qcom/sepolicy/sepolicy.mk
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_QCOM := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Encryption
 TARGET_HW_DISK_ENCRYPTION := true
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
+
+# Healthd
+BOARD_CHARGER_ENABLE_SUSPEND := true
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+BACKLIGHT_PATH := /sys/class/leds/lcd-backlight/brightness
+
+# Filesystem prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
 
 # CM Hardware
 BOARD_HARDWARE_CLASS += hardware/cyanogen/cmhw
@@ -107,6 +120,19 @@ BOARD_USES_CYANOGEN_HARDWARE := true
 # SEPolicy
 BOARD_SEPOLICY_DIRS += \
     $(PLATFORM_PATH)/sepolicy
+    
+# Camera
+TARGET_USE_VENDOR_CAMERA_EXT := true
+USE_DEVICE_SPECIFIC_CAMERA := true
+TARGET_HAS_LEGACY_CAMERA_HAL1 := true
+
+# GPS
+TARGET_NO_RPC := true
+USE_DEVICE_SPECIFIC_GPS := true
+
+# Recovery
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
+BOARD_NO_SECURE_DISCARD := true
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
