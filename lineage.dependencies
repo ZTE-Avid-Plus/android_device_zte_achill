@@ -1,0 +1,11 @@
+[
+  {
+    "repository": "android_device_qcom_common",
+    "target_path": "device/qcom/common"
+  },
+  {
+    "remote":      "ZTE-Avid-Plus",
+    "repository":  "android_kernel_zte_achill",
+    "target_path": "kernel/zte/achill",
+  }
+]
