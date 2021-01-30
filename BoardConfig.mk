@@ -52,7 +52,7 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_KERNEL_SEPARATED_DT := true
-TARGET_KERNEL_CONFIG := lineage-achill_defconfig
+TARGET_KERNEL_CONFIG := lineageos-achill_defconfig
 TARGET_KERNEL_SOURCE := kernel/zte/achill
 
 # Partitions
@@ -130,6 +130,9 @@ TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 TARGET_NO_RPC := true
 USE_DEVICE_SPECIFIC_GPS := true
 
+# Filesystem prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 BOARD_NO_SECURE_DISCARD := true
@@ -145,6 +148,15 @@ TARGET_USES_QCOM_WCNSS_QMI := true
 WIFI_DRIVER_FW_PATH_AP := "ap"
 WIFI_DRIVER_FW_PATH_STA := "sta"
 WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+ifeq ($(HOST_OS),linux)
+    ifeq ($(TARGET_BUILD_VARIANT),user)
+        ifeq ($(WITH_DEXPREOPT),)
+            WITH_DEXPREOPT := true
+            WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
+        endif
+    endif
+endif
 
 # TWRP
 DEVICE_RESOLUTION := 854x480
