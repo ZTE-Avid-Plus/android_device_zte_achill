@@ -1,0 +1,194 @@
+# Copyright (C) 2012 ZTE by RUIJIAGUI
+#
+# IMPORTANT: Do not create world writable files or directories.
+# This is a common source of Android security bugs.
+#
+
+
+on boot
+    # add for CHG related interface permissions
+    chmod 0660 /sys/class/power_supply/battery/charging_enabled
+    chown root system sys/class/power_supply/battery/charging_enabled
+    chmod 0660 /sys/module/zte_misc/parameters/enable_to_shutdown
+    chown root system /sys/module/zte_misc/parameters/enable_to_shutdown
+    chmod 0660 /sys/module/zte_misc/parameters/charging_enabled
+    chown root system /sys/module/zte_misc/parameters/charging_enabled
+    chmod 0660 /sys/module/zte_misc/parameters/poweroff_bs
+    chown root system /sys/module/zte_misc/parameters/poweroff_bs
+    chmod 0660 /sys/module/zte_misc/parameters/factory_mode
+    chown root system /sys/module/zte_misc/parameters/factory_mode
+
+    # add for HALL interface permissions
+    chmod 0660 /sys/module/zte_hall/parameters/factory_mode
+    chmod 0660 /sys/module/zte_hall/parameters/hall_timer_debug
+    chmod 0660 /sys/module/zte_hall/parameters/hall_interrupt_count
+    chown root system /sys/module/zte_hall/parameters/factory_mode
+    chown root system /sys/module/zte_hall/parameters/hall_timer_debug
+    chown root system /sys/module/zte_hall/parameters/hall_interrupt_count
+
+    # add for ignor sddump control 
+    chown system system /sys/module/msm_poweroff/parameters/ignore_sd_dump
+    chmod 0664 /sys/module/msm_poweroff/parameters/ignore_sd_dump
+
+    # add for ramdump report
+    chown system system /sys/module/subsystem_restart/parameters/sddump_status
+    chmod 0664 /sys/module/subsystem_restart/parameters/sddump_status
+
+
+on property:persist.sys.logcontrol.run=1
+    start logcontrol
+    setprop persist.sys.logcontrol.run 0
+
+service logcontrol /system/bin/init.logcontrol.sh
+    user root
+    disabled
+    oneshot
+
+#
+# zte: adb over wifi
+#
+on property:persist.sys.wifiadb.enable=1
+    setprop service.adb.tcp.port 5555
+    stop adbd
+    start adbd
+
+#
+# zte log
+#
+on property:persist.sys.ztelog.enable=0
+    stop getlog
+    start stop_tracer
+
+on property:persist.sys.ztelog.enable=1
+    mount debugfs none /sys/kernel/debug
+    start getlog
+    start start_tracer
+    #enable to record when app enter suspend or resume lianghouxing 20130822
+    write /sys/module/msm_pm/parameters/zte_enable2record 1
+
+#add for sddump
+on property:persist.sys.sddump.enable=0
+    write /sys/module/msm_poweroff/parameters/ignore_sd_dump 1
+on property:persist.sys.sddump.enable=1
+    write /sys/module/msm_poweroff/parameters/ignore_sd_dump 0
+
+#add for modemservice
+service ms-daemon /system/bin/modemservice
+    class late_start
+    user root
+
+
+service run_athdiag /system/bin/sh /system/etc/wifi/run_athdiag.sh
+    oneshot
+    disabled
+
+service wlan_prop /system/bin/sh /system/etc/init.wlanprop.sh
+    class main
+    oneshot
+	
+#zte bt 20140725 add for *983*24474636# chipertest
+service bluetooth_prop /system/bin/sh /system/bin/init.btprop.sh
+    class late_start
+    oneshot
+
+# ZTE_BT_2015-03-31 added for RF test #
+service bttestmode /system/bin/sh /system/bin/bt_testmode_new.sh
+    class late_start
+    user root
+    oneshot
+    disabled
+
+#
+# zte log
+#
+service getlog /system/bin/getlogtofile
+    user root
+    disabled
+    oneshot
+
+service start_tracer /system/bin/start_tracer.sh
+    user root
+    disabled
+    oneshot
+
+service stop_tracer /system/bin/stop_tracer.sh
+    user root
+    disabled
+    oneshot
+    
+service sshd /system/bin/start-ssh
+    class main
+    disabled
+    
+service assistant-daemon /system/bin/assistant
+    class late_start
+    user root
+    disabled
+    
+on property:persist.service.asnt.enable=1
+    start assistant-daemon
+
+#add for sdlog
+service sdlog-daemon /system/bin/sdlog
+    class late_start
+    disabled
+    
+on property:persist.service.sdlog.enable=1
+    start sdlog-daemon
+
+#hubo add for activate ztediag
+service ztediag /system/bin/ztediag
+    class late_start
+    user root
+    group radio cache inet misc audio  diag
+
+# hubo add for ztediag screencapture
+service screencappart /system/bin/screencap1 /cache/capture1.bmp
+    user root
+    group cache
+    oneshot
+    disabled
+    seclabel u:r:surfaceflinger:s0
+
+#ZTE_LC_IP_DEBUG, 20130513 start
+on property:persist.shell.tcpip.debug=0
+    write /sys/kernel/debug/tcp_output_debug/enable_debug 0
+on property:persist.shell.tcpip.debug=1
+    write /sys/kernel/debug/tcp_output_debug/enable_debug 1
+on property:persist.shell.tcpip.debug=2
+    write /sys/kernel/debug/tcp_output_debug/enable_debug 2
+on property:persist.shell.tcpip.debug=3
+    write /sys/kernel/debug/tcp_output_debug/enable_debug 3
+on property:persist.shell.tcpip.debug=4
+    write /sys/kernel/debug/tcp_output_debug/enable_debug 4
+#ZTE_LC_IP_DEBUG, 20130513 end
+
+service screencapwhole /system/bin/screencap1 -p /cache/capture.bmp
+    user root
+    group cache
+    oneshot
+    disabled
+    seclabel u:r:surfaceflinger:s0
+
+#ZTE_MIAOMIAO_PARTNERAPP
+service copypartnerapp /system/bin/copypartnerapp
+    class late_start
+    oneshot
+#end ZTE_MIAOMIAO_PARTNERAPP
+
+#ZTE_MiaoMiao_added for backup
+service app6939 /system/bin/app6939
+    class main
+    user root
+    seclabel u:r:app6939:s0
+#end ZTE_MiaoMiao_added for backup
+
+#ZTE_FEATURE_TF_SIMLOCK, needed by TracFone projects
+service simlock_service /system/bin/simlock_service
+    class core
+    user root
+    disabled
+
+on property:sys.keymaster.loaded=true
+    start simlock_service
+#end ZTE_FEATURE_TF_SIMLOCK, needed by TracFone projects
