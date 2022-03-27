@@ -52,7 +52,7 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_KERNEL_SEPARATED_DT := true
-TARGET_KERNEL_CONFIG := lineageos-achill_defconfig
+TARGET_KERNEL_CONFIG := msm8909-achill_defconfig
 TARGET_KERNEL_SOURCE := kernel/zte/achill
 
 # Partitions
